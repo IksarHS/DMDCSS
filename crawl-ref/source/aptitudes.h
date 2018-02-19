@@ -12,7 +12,7 @@ static inline species_skill_aptitude APT(species_type sp,
 static const species_skill_aptitude species_skill_aptitudes[] =
 {
     // SP_HUMAN
-    APT(SP_HUMAN,           SK_FIGHTING,        0),
+    APT(SP_HUMAN,           SK_FIGHTING,        3),
     APT(SP_HUMAN,           SK_SHORT_BLADES,    4),
     APT(SP_HUMAN,           SK_LONG_BLADES,     0),
     APT(SP_HUMAN,           SK_AXES,            0),
