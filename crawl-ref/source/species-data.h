@@ -37,6 +37,25 @@ static const map<species_type, species_def> species_data =
       SK_BOWS, SK_CROSSBOWS, SK_SLINGS },
 } },
 
+{ SP_FAERIE_DRAGON, {
+    "FD",
+    "Faerie Dragon", "Faerie", "Faerie",
+    SPF_NO_HAIR,
+    0, -3, 2, 6,
+    MONS_SPRIGGAN,
+    HT_LAND, US_ALIVE, SIZE_LITTLE,
+    4, 12, 9, // 25
+    { STAT_INT, STAT_DEX }, 4,
+    { { MUT_SHIMMERING_SCALES, 1, 1 }, {MUT_FAERIE_DRAGON_FLIGHT, 1, 1 }, },
+    { "Your affinity for magic reduces the MP cost of spells by 1.",
+	  "Your bright wings attract enemies. (Stealth-)", },
+    { "magical affinity", "bright wings", },
+    { JOB_EARTH_ELEMENTALIST, JOB_CONJURER, JOB_SUMMONER, JOB_FIRE_ELEMENTALIST,
+      JOB_ICE_ELEMENTALIST, JOB_AIR_ELEMENTALIST, JOB_VENOM_MAGE, JOB_WIZARD,
+	  JOB_NECROMANCER },
+    { SK_SHORT_BLADES, SK_MACES_FLAILS },
+} },
+
 { SP_GNOLL, {
     "Gn",
     "Gnoll", nullptr, nullptr,

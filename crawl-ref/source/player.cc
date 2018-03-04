@@ -1940,6 +1940,10 @@ int player_movement_speed()
     if (you.tengu_flight())
         mv--;
 
+	// Faerie Dragons can move slightly faster when flying.
+    if (you.faerie_dragon_flight())
+        mv--;
+	
     if (you.duration[DUR_FROZEN])
         mv += 3;
 
@@ -2138,7 +2142,7 @@ static int _player_evasion_bonuses()
     return evbonus;
 }
 
-// Player EV scaling for being flying tengu or swimming merfolk.
+// Player EV scaling for being flying tengu, flying faerie dragon, or swimming merfolk.
 static int _player_scale_evasion(int prescaled_ev, const int scale)
 {
     if (you.duration[DUR_PETRIFYING] || you.caught())
@@ -2155,6 +2159,13 @@ static int _player_scale_evasion(int prescaled_ev, const int scale)
 
     // Flying Tengu get a 20% evasion bonus.
     if (you.tengu_flight())
+    {
+        const int ev_bonus = max(1 * scale, prescaled_ev / 5);
+        return prescaled_ev + ev_bonus;
+    }
+	
+	// Flying Faerie Dragons get a 20% evasion bonus.
+    if (you.faerie_dragon_flight())
     {
         const int ev_bonus = max(1 * scale, prescaled_ev / 5);
         return prescaled_ev + ev_bonus;
@@ -2317,6 +2328,8 @@ int player_shield_class()
     shield += (you.get_mutation_level(MUT_LARGE_BONE_PLATES) > 0
                ? you.get_mutation_level(MUT_LARGE_BONE_PLATES) * 400 + 400
                : 0);
+			   
+	shield += you.get_mutation_level(MUT_SHIMMERING_SCALES) * 1200;
 
     shield += qazlal_sh_boost() * 100;
     shield += tso_sh_boost() * 100;
@@ -3167,6 +3180,11 @@ int player_stealth()
             stealth += STEALTH_PIP;
     }
 
+	//Faerie Dragons' bright scales reduce stealth.
+	if (you.species == SP_FAERIE_DRAGON && (you.form == transformation::none
+			|| you.form == transformation::appendage))
+		stealth -= STEALTH_PIP;
+	
     if (!you.airborne())
     {
         if (you.in_water())
@@ -4869,11 +4887,15 @@ void float_player()
     }
     else if (you.tengu_flight())
         mpr("You swoop lightly up into the air.");
+	else if (you.faerie_dragon_flight())
+		mpr("You flutter up into the air.");
     else
-        mpr("You fly up into the air.");
-
+			mpr("You fly up into the air.");
+	
     if (you.species == SP_TENGU)
-        you.redraw_evasion = true;
+			you.redraw_evasion = true;
+	else if (you.species == SP_FAERIE_DRAGON)
+			you.redraw_evasion = true;
 }
 
 void fly_player(int pow, bool already_flying)
@@ -4923,7 +4945,7 @@ bool land_player(bool quiet)
 
     if (!quiet)
         mpr("You float gracefully downwards.");
-    if (you.species == SP_TENGU)
+    if (you.species == SP_TENGU || you.species == SP_FAERIE_DRAGON)
         you.redraw_evasion = true;
 
     you.attribute[ATTR_FLIGHT_UNCANCELLABLE] = 0;
@@ -5615,6 +5637,7 @@ bool player::shielded() const
     return shield()
            || duration[DUR_DIVINE_SHIELD]
            || get_mutation_level(MUT_LARGE_BONE_PLATES) > 0
+		   || get_mutation_level(MUT_SHIMMERING_SCALES) > 0
            || qazlal_sh_boost() > 0
            || attribute[ATTR_BONE_ARMOUR] > 0
            || you.wearing(EQ_AMULET_PLUS, AMU_REFLECTION) > 0
@@ -5860,7 +5883,7 @@ int player::base_ac_from(const item_def &armour, int scale) const
  */
 int player::racial_ac(bool temp) const
 {
-    // drac scales suppressed in all serious forms, except dragon
+    // drac and faerie dragon scales suppressed in all serious forms, except dragon
     if (species_is_draconian(species)
         && (!player_is_shapechanged() || form == transformation::dragon
             || !temp))
@@ -5935,6 +5958,8 @@ int player::base_ac(int scale) const
               // +1, +2, +3
     AC += get_mutation_level(MUT_IRIDESCENT_SCALES, mutation_activity_type::FULL) * 200;
               // +2, +4, +6
+	AC += get_mutation_level(MUT_SHIMMERING_SCALES, mutation_activity_type::FULL) * 600;
+			  // +6
 #if TAG_MAJOR_VERSION == 34
     AC += get_mutation_level(MUT_ROUGH_BLACK_SCALES, mutation_activity_type::FULL)
           ? -100 + get_mutation_level(MUT_ROUGH_BLACK_SCALES, mutation_activity_type::FULL) * 300 : 0;
@@ -6430,13 +6455,19 @@ bool player::permanent_flight() const
 bool player::racial_permanent_flight() const
 {
     return get_mutation_level(MUT_TENGU_FLIGHT) >= 2
-        || get_mutation_level(MUT_BIG_WINGS);
+        || get_mutation_level(MUT_BIG_WINGS)
+		|| get_mutation_level(MUT_FAERIE_DRAGON_FLIGHT);
 }
 
+ // Only Tengu and Faerie Dragons get perks for flying.
 bool player::tengu_flight() const
 {
-    // Only Tengu get perks for flying.
     return species == SP_TENGU && airborne();
+}
+
+bool player::faerie_dragon_flight() const
+{
+    return species == SP_FAERIE_DRAGON && airborne();
 }
 
 /**

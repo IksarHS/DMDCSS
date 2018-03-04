@@ -566,3 +566,4 @@ static void _setup_generic(const newgame_def& ng)
         you.save = new package(get_savedir_filename(you.your_name).c_str(),
                                true, true);
 }
+

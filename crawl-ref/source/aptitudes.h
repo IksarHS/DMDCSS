@@ -1253,6 +1253,45 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_DEEP_DWARF,      SK_INVOCATIONS,     3),
     APT(SP_DEEP_DWARF,      SK_EVOCATIONS,      3),
 
+    // SP_FAERIE_DRAGON
+    APT(SP_FAERIE_DRAGON,        SK_FIGHTING,       -1),
+    APT(SP_FAERIE_DRAGON,        SK_SHORT_BLADES,   -2),
+    APT(SP_FAERIE_DRAGON,        SK_LONG_BLADES,    -3),
+    APT(SP_FAERIE_DRAGON,        SK_AXES,           -4),
+    APT(SP_FAERIE_DRAGON,        SK_MACES_FLAILS,   -2),
+    APT(SP_FAERIE_DRAGON,        SK_POLEARMS,       -4),
+    APT(SP_FAERIE_DRAGON,        SK_STAVES,         -3),
+    APT(SP_FAERIE_DRAGON,        SK_SLINGS,         -2),
+    APT(SP_FAERIE_DRAGON,        SK_BOWS,           -3),
+    APT(SP_FAERIE_DRAGON,        SK_CROSSBOWS,      -4),
+    APT(SP_FAERIE_DRAGON,        SK_THROWING,       -3),
+    APT(SP_FAERIE_DRAGON,        SK_ARMOUR,        UNUSABLE_SKILL),
+    APT(SP_FAERIE_DRAGON,        SK_DODGING,         3),
+    APT(SP_FAERIE_DRAGON,        SK_STEALTH,        -3),
+#if TAG_MAJOR_VERSION == 34
+    APT(SP_FAERIE_DRAGON,        SK_STABBING,      UNUSABLE_SKILL),
+#endif
+    APT(SP_FAERIE_DRAGON,        SK_SHIELDS,        -2),
+#if TAG_MAJOR_VERSION == 34
+    APT(SP_FAERIE_DRAGON,        SK_TRAPS,         UNUSABLE_SKILL),
+#endif
+    APT(SP_FAERIE_DRAGON,        SK_UNARMED_COMBAT, -3),
+    APT(SP_FAERIE_DRAGON,        SK_SPELLCASTING,    1),
+    APT(SP_FAERIE_DRAGON,        SK_CONJURATIONS,    3),
+    APT(SP_FAERIE_DRAGON,        SK_HEXES,          -3),
+    APT(SP_FAERIE_DRAGON,        SK_CHARMS,          1),
+    APT(SP_FAERIE_DRAGON,        SK_SUMMONINGS,      3),
+    APT(SP_FAERIE_DRAGON,        SK_NECROMANCY,      1),
+    APT(SP_FAERIE_DRAGON,        SK_TRANSLOCATIONS,  1),
+    APT(SP_FAERIE_DRAGON,        SK_TRANSMUTATIONS, -3),
+    APT(SP_FAERIE_DRAGON,        SK_FIRE_MAGIC,      2),
+    APT(SP_FAERIE_DRAGON,        SK_ICE_MAGIC,       2),
+    APT(SP_FAERIE_DRAGON,        SK_AIR_MAGIC,       2),
+    APT(SP_FAERIE_DRAGON,        SK_EARTH_MAGIC,     2),
+    APT(SP_FAERIE_DRAGON,        SK_POISON_MAGIC,    2),
+    APT(SP_FAERIE_DRAGON,        SK_INVOCATIONS,     1),
+    APT(SP_FAERIE_DRAGON,        SK_EVOCATIONS,      1),
+	
     // SP_FELID
     APT(SP_FELID,           SK_FIGHTING,        0),
     APT(SP_FELID,           SK_SHORT_BLADES,  UNUSABLE_SKILL),
